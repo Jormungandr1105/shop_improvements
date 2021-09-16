@@ -47,7 +47,7 @@ class Inventory():
 		location = item["location"]
 
 
-	def create_item(self, item_name, item_location = "", item_family = "", item_quantity = 1, quantity_required = 1, desc = ""):
+	def create_item(self, item_name, item_location = "", item_family = "none", item_quantity = 1, quantity_required = 1, desc = ""):
 
 		if item_name in self.items:
 			self.items[item_name]["item_quantity"] += item_quantity
@@ -57,8 +57,6 @@ class Inventory():
 			new_item["location"] = item_location
 			new_item["family"] = item_family
 			new_item["quantity"] = item_quantity
-			new_item["quantity_required"] = quantity_required
-			new_item["desc"] = desc
 			new_item["date_mod"] = str(datetime.datetime.utcnow())
 			self.items[item_name] = new_item
 

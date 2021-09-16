@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import datetime
 import json
 from Inventory import *
@@ -10,9 +9,7 @@ def create():
 	location = input("ENTER LOCATION: ")
 	family = input("ENTER FAMILY: ")
 	quantity = int(input("ENTER QUANTITY: "))
-	quant_need = int(input("ENTER QUANTITY NEEDED: "))
-	desc = input("ENTER DESCRIPTION: ")
-	inv.create_item(name, location, family, quantity, quant_need, desc)
+	inv.create_item(name, location, family, quantity)
 
 
 def delete():
@@ -39,28 +36,15 @@ def use():
 
 
 def process_command(cmd):
+	# Daisy Chain of Death
 	global inv
+	cmd = cmd.lower()
 	cmd_array = cmd.split(" ")
 	if len(cmd_array) == 1:
 		# Step by step
-		pass
-	else:
-		pass
-	return 0
-
-
-inv = Inventory()
-
-
-if __name__ == '__main__':
-	inv.load_json("inventory.json")
-	cmd = ""
-	#'''
-	cont = True
-	while cont:
-		cmd = input("Enter Command: ")
-		# FILL THIS OUT BETTER LATER
-		if cmd == "create":
+		if cmd == "exit":
+			return False
+		elif cmd == "create":
 			create()
 		elif cmd == "delete":
 			delete()
@@ -68,9 +52,59 @@ if __name__ == '__main__':
 			use()
 		elif cmd == "add":
 			pass
-		else:
-			cont = process_command(cmd)
-		
-	#'''
-	
+		elif cmd == "search":
+			pass
+		# End if block
+	else:
+		# Speedy commands
+		if cmd_array[0] == "create":
+			name = cmd_array[1]
+			location = cmd_array[2]
+			if len(cmd_array) > 3:
+				family = cmd_array[3]
+			else:
+				family = input("ENTER FAMILY: ").lower()
+			if len(cmd_array) > 4:
+				quantity = int(cmd_array[4])
+			else:
+				quantity = int(input("ENTER QUANTITY: "))
+			inv.create_item(name, location, family, quantity)
+
+		elif cmd_array[0] == "delete":
+			name = cmd_array[1]
+			del_item = inv.search_item(name)
+			if del_item != None:
+				if cmd_array[2] == "-y":
+					inv.delete_item(del_item)
+				else:
+					confirmation = input("CONFIRM DELETE? (y/N): ")
+					if confirmation.lower() == "y":
+						inv.delete_item(del_item)
+					else:
+						print("ITEM NOT FOUND")
+
+		elif cmd_array[0] == "search":
+			item = inv.search_item(cmd_array[1].lower())
+		elif cmd_array[0] == "use":
+			pass
+		elif cmd_array[0] == "add":
+			pass
+		elif cmd_array[0] == "move":
+			pass
+		elif cmd_array[0] == "mod":
+			pass
+
+	return True
+
+
+inv = Inventory()
+
+
+if __name__ == '__main__':
+	inv.load_json("inventory.json")
+	cont = True
+	while cont:
+		cmd = input("Enter Command: ").lower()
+		cont = process_command(cmd)
+
 	inv.save_json("inventory.json")

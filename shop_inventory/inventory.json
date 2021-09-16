@@ -5,29 +5,31 @@
             "location": "L4",
             "family": "",
             "quantity": 1,
-            "exp_quantity": 1,
-            "desc": ""
+            "date_mod": ""
         },
         "m4_10": {
             "name": "m4_10",
             "location": "L3",
             "family": "bolt",
             "quantity": 10,
-            "quantity_required": 5,
-            "desc": "",
             "date_mod": "2021-09-14 18:41:05.087865"
         }
     },
     "locations": {
-        "L4": "m8_20",
-        "window_sill": "",
-        "L3": "m4_10"
+        "L4": [
+            "m8_20"
+        ],
+        "L3": [
+            "m4_10"
+        ],
+        "desk": ""
     },
     "families": {
         "bolt": [
             "m4_10"
         ],
         "nut": [],
-        "sbc": []
+        "sbc": [],
+        "none": []
     }
 }
